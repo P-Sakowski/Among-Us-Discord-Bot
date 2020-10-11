@@ -1,13 +1,13 @@
-var Discord = require('discord.io');
-var logger = require('winston');
-var auth = require('./auth.json');
+const Discord = require('discord.io');
+const logger = require('winston');
+const auth = require('./auth.json');
 
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
     colorize: true
 });
 logger.level = 'debug';
-var bot = new Discord.Client({
+const bot = new Discord.Client({
    token: auth.token,
    autorun: true
 });
@@ -19,8 +19,8 @@ bot.on('ready', function (evt) {
 bot.on('message', function (user, userID, channelID, message, evt) {
     // It will listen for messages that will start with `.`
     if (message.substring(0, 1) == '.') {
-        var args = message.substring(1).split(' ');
-        var cmd = args[0];
+        let args = message.substring(1).split(' ');
+        const cmd = args[0];
        
         args = args.splice(1);
         switch(cmd) {
@@ -29,8 +29,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     to: channelID,
                     message: 'Pong!'
                 });
-            case 'mute':
-                if (message.author.voice.channel) {
+                break;
+            /*case 'mute':
+                if (message.member.voice.channel) {
                     let channel = message.guild.channels.cache.get(message.member.voice.channel.id);
                     for (const [memberID, member] of channel.members) {
                       // if (member != message.member)
@@ -43,7 +44,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 } else {
                     message.reply('You need to join a voice channel first!');
                 }
-            break;
+            break; */
          }
      }
 });
